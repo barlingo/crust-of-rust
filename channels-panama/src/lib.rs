@@ -58,6 +58,7 @@ impl<T> Receiver<T> {
         }
     }
 }
+
 impl<T> Drop for Receiver<T> {
     fn drop(&mut self) {
         let mut inner = self.shared.inner.lock().unwrap();
