@@ -23,13 +23,13 @@ impl Sorter for SelectionSort {
 mod tests {
     use super::*;
     #[test]
-    fn selectionsort_odd() {
+    fn selection_sort_odd() {
         let mut things = vec![4, 2, 5, 3, 1];
         SelectionSort::sort(&mut things);
         assert_eq!(things, [1, 2, 3, 4, 5]);
     }
     #[test]
-    fn selectionsort_even() {
+    fn selection_sort_even() {
         let mut things = vec![4, 2, 5, 3, 1, 6];
         SelectionSort::sort(&mut things);
         assert_eq!(things, [1, 2, 3, 4, 5, 6]);
