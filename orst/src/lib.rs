@@ -1,4 +1,7 @@
-mod bubblesort;
+mod bubble_sort;
+mod insertion_sort;
+mod selection_sort;
+
 pub trait Sorter {
     fn sort<T>(slice: &mut [T])
     where

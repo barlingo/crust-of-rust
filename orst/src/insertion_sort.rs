@@ -8,8 +8,8 @@ impl Sorter for InsertionSort {
         T: Ord,
     {
         for unsorted in 1..slice.len() {
-            let i = unsorted;
-            while i > 0 && slice[i - 1] > i {
+            let mut i = unsorted;
+            while i > 0 && slice[i - 1] > slice[i] {
                 slice.swap(i - 1, i);
                 i -= 1;
             }
