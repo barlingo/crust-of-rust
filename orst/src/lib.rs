@@ -1,16 +1,17 @@
 mod bubble_sort;
 mod insertion_sort;
+mod merge_sort;
 mod selection_sort;
 
 pub trait Sorter {
     fn sort<T>(slice: &mut [T])
     where
-        T: Ord;
+        T: Ord + std::fmt::Debug + Copy;
 }
 
 pub fn sort<T, S>(slice: &mut [T])
 where
-    T: Ord,
+    T: Ord + std::fmt::Debug + Copy,
     S: Sorter,
 {
     S::sort(slice)
