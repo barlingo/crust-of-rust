@@ -6,12 +6,12 @@ mod selection_sort;
 pub trait Sorter {
     fn sort<T>(slice: &mut [T])
     where
-        T: Ord + std::fmt::Debug + Copy;
+        T: Ord + Copy;
 }
 
 pub fn sort<T, S>(slice: &mut [T])
 where
-    T: Ord + std::fmt::Debug + Copy,
+    T: Ord + Copy,
     S: Sorter,
 {
     S::sort(slice)

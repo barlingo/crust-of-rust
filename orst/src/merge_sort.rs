@@ -1,55 +1,42 @@
 use super::Sorter;
-use std::fmt::Debug as fmtDebug;
 
 pub struct MergeSort;
 
 impl Sorter for MergeSort {
     fn sort<T>(slice: &mut [T])
     where
-        T: Ord + std::fmt::Debug + Copy,
+        T: Ord + Copy,
     {
         if slice.len() <= 1 {
             return;
         }
-
-        // println!("{:?}", &slice);
         let mid = slice.len() / 2;
-        let (left, right) = slice.split_at_mut(mid);
-        Self::sort(right);
-        Self::sort(left);
-        merge(left, right);
-        println!("{:?} | {:?}", &left, &right);
+        Self::sort(&mut slice[mid..]);
+        Self::sort(&mut slice[..mid]);
+        let mut sorted_slice = slice.to_vec();
+        merge(&slice[..mid], &slice[mid..], &mut sorted_slice);
+        slice.copy_from_slice(&sorted_slice);
     }
 }
 
-fn merge<T: Ord + fmtDebug + Copy>(left: &mut [T], right: &mut [T]) {
-    let size = left.len() + right.len();
-    let mut result: Vec<T> = Vec::with_capacity(size);
-    let (mut l, mut r) = (0, 0);
-    while l < left.len() && r < right.len() {
-        if left[l] < right[r] {
-            result.push(left[l]);
-            l += 1;
+fn merge<T: Ord + Copy>(l_slice: &[T], r_slice: &[T], sorted: &mut [T]) {
+    let (mut l_idx, mut r_idx, mut idx) = (0, 0, 0);
+    while l_idx < l_slice.len() && r_idx < r_slice.len() {
+        if l_slice[l_idx] < r_slice[r_idx] {
+            sorted[idx] = l_slice[l_idx];
+            idx += 1;
+            l_idx += 1;
         } else {
-            result.push(right[r]);
-            r += 1;
+            sorted[idx] = r_slice[r_idx];
+            idx += 1;
+            r_idx += 1;
         }
     }
-    while l < left.len() {
-        result.push(left[l]);
-        l += 1;
+    if l_idx < l_slice.len() {
+        sorted[idx..].copy_from_slice(&l_slice[l_idx..]);
     }
-    while r < right.len() {
-        result.push(right[r]);
-        r += 1;
-    }
-
-    for (idx, val) in result.iter().enumerate() {
-        if idx < left.len() {
-            left[idx] = *val;
-        } else {
-            right[idx - left.len()] = *val;
-        }
+    if r_idx < r_slice.len() {
+        sorted[idx..].copy_from_slice(&r_slice[r_idx..]);
     }
 }
 
