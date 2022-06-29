@@ -1,11 +1,12 @@
 use super::Sorter;
+use std::fmt::Debug as fmtDebug;
 
 pub struct MergeSort;
 
 impl Sorter for MergeSort {
     fn sort<T>(slice: &mut [T])
     where
-        T: Ord + Copy,
+        T: Ord + Copy + fmtDebug,
     {
         if slice.len() <= 1 {
             return;

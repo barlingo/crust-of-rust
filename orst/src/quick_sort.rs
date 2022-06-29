@@ -1,4 +1,5 @@
 use super::Sorter;
+use rand::Rng;
 use std::fmt::Debug as fmtDebug;
 
 pub struct QuickSort;
@@ -18,14 +19,19 @@ impl Sorter for QuickSort {
             }
             _ => {}
         }
+
         let p_idx = pivot(slice);
         let (left, right) = slice.split_at_mut(p_idx);
+        println!("{:?} | {:?}", &left, &right);
         Self::sort(left);
         Self::sort(&mut right[1..]); // Exclude the pivot
     }
 }
 fn pivot<T: Ord>(slice: &mut [T]) -> usize {
-    let mut p = 0;
+    let mut rng = rand::thread_rng();
+    let mut p = rng.gen_range(0..slice.len() - 1);
+    slice.swap(0, p);
+    p = 0;
     for i in 1..slice.len() {
         if slice[i] < slice[p] {
             slice.swap(p + 1, i);
@@ -43,7 +49,7 @@ mod tests {
     fn quick_sort_sorted() {
         let mut things = vec![1, 2, 3, 4, 5, 6, 7];
         QuickSort::sort(&mut things);
-        assert_eq!(things, [1, 1, 2, 2, 3, 4, 5, 7, 8, 10, 20, 50]);
+        assert_eq!(things, [1, 2, 3, 4, 5, 6, 7]);
     }
     #[test]
     fn quick_sort_odd() {
